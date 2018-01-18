@@ -1,0 +1,80 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+<!-- CSS INCLUDE -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous"></link>
+<!-- EOF CSS INCLUDE -->
+<style>
+body {
+	background-image:
+		url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABZ0RVh0Q3JlYXRpb24gVGltZQAxMC8yOS8xMiKqq3kAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzVxteM2AAABHklEQVRIib2Vyw6EIAxFW5idr///Qx9sfG3pLEyJ3tAwi5EmBqRo7vHawiEEERHS6x7MTMxMVv6+z3tPMUYSkfTM/R0fEaG2bbMv+Gc4nZzn+dN4HAcREa3r+hi3bcuu68jLskhVIlW073tWaYlQ9+F9IpqmSfq+fwskhdO/AwmUTJXrOuaRQNeRkOd5lq7rXmS5InmERKoER/QMvUAPlZDHcZRhGN4CSeGY+aHMqgcks5RrHv/eeh455x5KrMq2yHQdibDO6ncG/KZWL7M8xDyS1/MIO0NJqdULLS81X6/X6aR0nqBSJcPeZnlZrzN477NKURn2Nus8sjzmEII0TfMiyxUuxphVWjpJkbx0btUnshRihVv70Bv8ItXq6Asoi/ZiCbU6YgAAAABJRU5ErkJggg==);
+}
+</style>
+
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row" id="postResultDiv"></div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="main">
+					<h1 >HTML to Excel RichText Maker</h1>
+					<form id="form" method="post" >
+						<textarea id="content" class="content" name="content" rows="15"
+							cols="40" style="margin-left: 40px;">
+                This is my textarea.
+</textarea>
+						<input type="submit" value="Submit" class="form-control btn btn-primary" id="expb"></input>
+					</form>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+	</script>
+		<script th:inline="javascript">
+		/*<![CDATA[*/
+	
+	$("form").submit(
+			function(event){
+				event.preventDefault();
+				
+				data = document.getElementById("content").value;
+				console.log("data for post to excel::"+ data);
+				$
+				.ajax(
+						{
+							url : "/export",
+							type : 'POST',
+							data : data ,
+							contentType : "text/html",
+							dataType : 'text',
+							success : function(result) {
+								
+								$("#postResultDiv")
+										.html(
+												"<p style='background-color:#7FA7B0; color:white; padding:20px 20px 20px 20px'>"
+														+ "Post Successfully! "														
+														+ "</p>").delay(1000).fadeOut();
+									
+									console.log(result);
+								},
+								error : function(e) {
+									alert("Error!")
+									console.log("ERROR: ", e);
+								}
+						})
+
+		});
+	/*]]>*/
+
+</script>
+</body>
+</html>
